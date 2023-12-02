@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = MD_First
+title = TicTacToe
 
 # (str) Package name
-package.name = MD_First
+package.name = TicTacToe
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.MD_First
+package.domain = org.TicTacToe
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -38,7 +38,7 @@ version = 0.1
 # (list) Application requirements:::
 # comma separated e.g. requirements = sqlite3,kivy
 # requirements = python3==3.7.6,hostpython3==3.7.6,kivy,pillow
-requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.1.0,kivymd==1.1.1
+requirements = python3==3.7.6,hostpython3==3.7.6,kivy==2.1.0,kivymd==1.1.1,sqlite3
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
