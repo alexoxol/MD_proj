@@ -1,3 +1,4 @@
+from kivy.config import Config
 from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -6,7 +7,6 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.label import MDLabel
-from kivy.core.window import Window
 import sqlite3
 
 def winComb(*cells):
@@ -72,9 +72,10 @@ class GameWindow(Screen, MDFloatLayout):
         myGrid.cols = 3
         myGrid.rows = 3
         myGrid.size_hint = (None, None)
-        wid = Window.width - dp(500)
-        myGrid.height = wid
-        myGrid.width = wid
+        scr_w = Config.getint('graphics', 'width')
+        grid_w = scr_w - dp(100)
+        myGrid.height = grid_w
+        myGrid.width = grid_w
         myGrid.pos_hint = {"center_x": 0.5, "center_y": 0.6}
         # Кнопки на грид
         for i in range(9):
