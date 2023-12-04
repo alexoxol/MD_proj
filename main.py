@@ -1,3 +1,4 @@
+from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
@@ -5,6 +6,7 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.label import MDLabel
+from kivy.core.window import Window
 import sqlite3
 
 def winComb(*cells):
@@ -69,7 +71,10 @@ class GameWindow(Screen, MDFloatLayout):
         myGrid = MDGridLayout()
         myGrid.cols = 3
         myGrid.rows = 3
-        myGrid.size_hint = (0.5, 0.5)
+        myGrid.size_hint = (None, None)
+        wid = Window.width - dp(500)
+        myGrid.height = wid
+        myGrid.width = wid
         myGrid.pos_hint = {"center_x": 0.5, "center_y": 0.6}
         # Кнопки на грид
         for i in range(9):
@@ -134,10 +139,14 @@ class GameWindow(Screen, MDFloatLayout):
             """)
 
     def checkForWin(self, cells):
+        # Возвращаем индекс совпавшей линии, или -1 (никто не выиграл, продолжаем), или -2 (ничья)
         for i, win in enumerate(self.wins):
             comb_len = len([True for x, w in zip(cells, win) if x == w == True])
             if comb_len == 3:
-                # Возвращаем индекс совпавшей линии, или -1 (никто не выиграл, продолжаем), или -2 (ничья)
+                # Красим выигравшие ячейки
+                winButtons = [btn for (btn, status) in zip(self.btns, win) if status]
+                for btn in winButtons:
+                    btn.color = "red"
                 return i
         if sum(self.cells_x) + sum(self.cells_o) == 9:
             # Ничья
@@ -152,6 +161,7 @@ class GameWindow(Screen, MDFloatLayout):
         self.curr_cells = self.cells_x
         for btn in self.btns:
             btn.text = ""
+            btn.color = "white"
             btn.disabled = False
 
 class MainWindow(Screen, MDFloatLayout):
