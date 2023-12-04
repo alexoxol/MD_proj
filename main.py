@@ -73,7 +73,7 @@ class GameWindow(Screen, MDFloatLayout):
         myGrid.rows = 3
         myGrid.size_hint = (None, None)
         scr_w = Config.getint('graphics', 'width')
-        grid_w = scr_w - dp(100)
+        grid_w = scr_w - dp(50)
         myGrid.height = grid_w
         myGrid.width = grid_w
         myGrid.pos_hint = {"center_x": 0.5, "center_y": 0.6}
