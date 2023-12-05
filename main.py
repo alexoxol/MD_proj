@@ -71,11 +71,13 @@ class GameWindow(Screen, MDFloatLayout):
         myGrid = MDGridLayout()
         myGrid.cols = 3
         myGrid.rows = 3
+        myGrid.md_bg_color = "white"
+        myGrid.spacing = 2
         myGrid.size_hint = (None, None)
         scr_w = Config.getint('graphics', 'width')
-        grid_w = scr_w - dp(50)
-        myGrid.height = grid_w
-        myGrid.width = grid_w
+        grid_w = scr_w * 0.9
+        myGrid.height = grid_w # dp(300)
+        myGrid.width = myGrid.height
         myGrid.pos_hint = {"center_x": 0.5, "center_y": 0.6}
         # Кнопки на грид
         for i in range(9):
