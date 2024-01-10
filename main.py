@@ -8,6 +8,7 @@ from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.label import MDLabel
 import sqlite3
+import requests
 
 def winComb(*cells):
     return [True if i in cells else False for i in range(9)]
@@ -97,7 +98,7 @@ class GameWindow(Screen, MDFloatLayout):
         self.add_widget(self.myLabel)
 
         # Кнопка рестарт
-        restartButton = MDRaisedButton(text = "Restart!", pos_hint = {"center_x": 0.5, "center_y": 0.15})
+        restartButton = MDRaisedButton(text = "Рестарт!", pos_hint = {"center_x": 0.5, "center_y": 0.15})
         self.ids["restart"] = restartButton
         restartButton.bind(on_press = self.restart)
         self.add_widget(restartButton)
@@ -140,6 +141,10 @@ class GameWindow(Screen, MDFloatLayout):
             self.parent.db_exec(f"""
                 INSERT into cur_game(turn, cells_x, cells_o) VALUES ('{turn}', '{cells_x}', '{cells_o}')
             """)
+        r = requests.get("http://82.202.204.242:5000/db")
+        self.ids['restart'].text = str(r.status_code)
+        # print("Status Code", r.status_code)
+        # print("JSON Response ", r.json())
 
     def checkForWin(self, cells):
         # Возвращаем индекс совпавшей линии, или -1 (никто не выиграл, продолжаем), или -2 (ничья)
