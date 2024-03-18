@@ -18,7 +18,6 @@ class GameWindow(Screen, MDFloatLayout):
     turn = "X"
     cells_x = [False for _ in range(9)]
     cells_o = [False for _ in range(9)]
-    curr_cells = cells_x
     btns = []
     myLabel = None
     # Выигрышные комбинации
@@ -53,8 +52,6 @@ class GameWindow(Screen, MDFloatLayout):
         self.myLabel.text = f"Первым ходит {self.turn}"
         self.cells_x = eval(rec[1])
         self.cells_o = eval(rec[2])
-        self.curr_cells = self.cells_x if self.turn == "X" else self.cells_o
-        print(self.curr_cells)
         for i, btn in enumerate(self.btns):
             # Красим доску
             if self.cells_x[i]:
@@ -106,16 +103,17 @@ class GameWindow(Screen, MDFloatLayout):
     def presser(self, btn):
         btn.text = self.turn
         btn.disabled = True
-        # Меняем текущий блок ячеек
-        self.curr_cells = self.cells_x if self.turn == "X" else self.cells_o
-        # Проставляем в этот блок True
-        self.curr_cells[btn.tag] = True
+        # Проставляем в текущий блок True
+        if self.turn == "X":
+            self.cells_x[btn.tag] = True
+        else:
+            self.cells_o[btn.tag] = True
         # Удаляем из БД
         self.parent.db_exec("""
             DELETE FROM cur_game
         """)
         # Провереям на победу
-        win_index = self.checkForWin(self.curr_cells)
+        win_index = self.checkForWin(self.cells_x if self.turn == "X" else self.cells_o)
         if win_index >= 0:
             # Есть победитель
             self.myLabel.text = f"Победитель: {self.turn}"
@@ -166,7 +164,6 @@ class GameWindow(Screen, MDFloatLayout):
         self.myLabel.text = f"Первым ходит {self.turn}"
         self.cells_x = [False for _ in range(9)]
         self.cells_o = [False for _ in range(9)]
-        self.curr_cells = self.cells_x
         for btn in self.btns:
             btn.text = ""
             btn.color = "white"
