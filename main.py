@@ -38,12 +38,11 @@ class GameWindow(Screen, MDFloatLayout):
         records = self.parent.db_select("""
             SELECT * FROM cur_game
         """)
-        # Удаляем из БД
-        self.parent.db_exec("""
-            DELETE FROM cur_game
-        """)
-        self.restart()
         if len(records) == 0:
+            # Удаляем из БД
+            self.parent.db_exec("""
+                DELETE FROM cur_game
+            """)
             self.restart()
         else:
             # Восстанавливаем состояние игры
@@ -55,6 +54,7 @@ class GameWindow(Screen, MDFloatLayout):
         self.cells_x = eval(rec[1])
         self.cells_o = eval(rec[2])
         self.curr_cells = self.cells_x if self.turn == "X" else self.cells_o
+        print(self.curr_cells)
         for i, btn in enumerate(self.btns):
             # Красим доску
             if self.cells_x[i]:
