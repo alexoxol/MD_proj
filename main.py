@@ -140,7 +140,7 @@ class GameWindow(Screen, MDFloatLayout):
                 INSERT into cur_game(turn, cells_x, cells_o) VALUES ('{turn}', '{cells_x}', '{cells_o}')
             """)
         r = requests.get("http://82.202.204.242:5000/db")
-        self.ids['restart'].text = str(r.status_code)
+        self.ids['restart'].text = f'st: {r.status_code}'
         # print("Status Code", r.status_code)
         # print("JSON Response ", r.json())
 
